@@ -1,0 +1,29 @@
+{
+  "name": "nodejs-authentication",
+  "version": "0.0.0",
+  "description": "NodeJS Authentication",
+  "main": "index.js",
+  "scripts": {
+    "local": "NODE_ENV=local supervisor index.js",
+    "dev": "NODE_ENV=develop node index.js",
+    "start": "NODE_ENV=production node index.js"
+  },
+  "author": "Agustín Quetto",
+  "license": "MIT",
+  "dependencies": {
+    "@sendgrid/mail": "^6.4.0",
+    "aws-sdk": "^2.504.0",
+    "bcrypt": "^3.0.6",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "isomorphic-fetch": "^2.2.1",
+    "lodash": "^4.17.15",
+    "moment": "^2.24.0",
+    "mongoose": "^5.6.7",
+    "redis": "^2.8.0",
+    "supervisor": "^0.12.0",
+    "winston": "^3.2.1",
+    "winston-loggly-bulk": "^3.0.1"
+  }
+}
