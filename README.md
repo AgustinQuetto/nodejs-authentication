@@ -4,6 +4,7 @@ Agustín Quetto 2019
 
 These server includes:
 
+-   Login, register and confirmation notification
 -   Controllers, models and services files
 -   Session middleware protection
 -   Session information in req.session
