@@ -120,6 +120,10 @@ class AuthController {
             password_link: `${config.BASE_URL}/confirmation/${userData._id}/${userData.token}`
         };
 
+        if (!config.sendgrid.templates.welcome) {
+            return res.status(201).json(substitutions);
+        }
+
         this.mailController.send(userData.email, {
             templateId: config.sendgrid.templates.welcome,
             subject: "Welcome",
