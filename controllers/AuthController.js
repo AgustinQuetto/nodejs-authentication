@@ -117,7 +117,7 @@ class AuthController {
 
         const substitutions = {
             name: `${userData.firstname}`.toUpperCase(),
-            password_link: `${config.BASE_URL}/confirmation/${userData._id}/${userData.token}`
+            confirmation: `${config.BASE_URL}/confirmation/${userData._id}/${userData.token}`
         };
 
         if (!config.sendgrid.templates.welcome) {
