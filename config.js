@@ -55,6 +55,8 @@ self.sendgrid = {
     }
 };
 
+self.passwordLevel = ["high", "medium"][0];
+
 self.mongodbConnectionString = `mongodb://${self.mongodb.user}${
     self.mongodb.password ? ":" + self.mongodb.password : ""
 }${self.mongodb.user || self.mongodb.password ? "@" : ""}${self.mongodb.ip}:${
