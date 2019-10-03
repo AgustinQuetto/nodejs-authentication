@@ -31,6 +31,14 @@ User model extension:
 -   The idea of this server base is have an abstraction of methods, keeping the core code unchanged and impacting through the configuration.
 -   If you need to extend the user's model, you can do so by adding properties in UserModelCustomProps. This will be unified to the model.
 
+Sendgrid emails:
+
+-   Sendgrid is used as a third-party messaging service and is integrated into mailController. The library is abstracted in the send method of the class. You can configure the apikey and the sender in config.js
+
+Sendgrid templates:
+
+-   Welcome: it has the dynamic values "name" (firstname) and "confirmation" (link).
+
 Terminal commands:
 
 -   npm run local (local development)
