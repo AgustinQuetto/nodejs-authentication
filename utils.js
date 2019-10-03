@@ -52,20 +52,6 @@ self.request = async (
     return res;
 };
 
-self.getConfig = (processValue, productionValue, developValue, localValue) => {
-    if (processValue) return processValue;
-    const value =
-        process.env.NODE_ENV === `production`
-            ? productionValue
-            : process.env.NODE_ENV === `develop`
-            ? developValue || productionValue
-            : localValue || developValue || productionValue;
-    if (typeof value === `undefined`) {
-        console.log(`config value undefined`);
-    }
-    return value;
-};
-
 self.replaceAll = (target, search, replacement) => {
     return target.replace(new RegExp(search, "g"), replacement);
 };
@@ -81,7 +67,7 @@ winston.add(
     new Loggly({
         token: config.loggly.token,
         subdomain: config.loggly.subdomain,
-        tags: ["serviceId"],
+        tags: ["server"],
         json: true
     })
 );

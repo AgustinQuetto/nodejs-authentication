@@ -26,6 +26,11 @@ Configuration:
 -   It is determined by prior. Environment variable, productive constant, development constant, local constant.
 -   The priority responds to the value of the NODE_DEV environment variable. If the environment variable of a specific configuration is defined, it will be taken as a priority first.
 
+User model extension:
+
+-   The idea of this server base is have an abstraction of methods, keeping the core code unchanged and impacting through the configuration.
+-   If you need to extend the user's model, you can do so by adding properties in UserModelCustomProps. This will be unified to the model.
+
 Terminal commands:
 
 -   npm run local (local development)
