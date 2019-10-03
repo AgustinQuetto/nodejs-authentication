@@ -18,7 +18,10 @@ const defaultProps = {
     password: String,
     token: String,
     expiration: Date,
-    confirmed: Boolean
+    confirmed: {
+        type: Boolean,
+        default: false
+    }
 };
 
 const customProps = {

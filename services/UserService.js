@@ -22,9 +22,6 @@ class UserService {
 
     update(query = false, data = {}, opts = { returnNewDocument: true }) {
         if (!query) return false;
-        if (data.tenant) {
-            delete data.tenant;
-        }
 
         return this.userModel.findOneAndUpdate(query, data, opts);
     }

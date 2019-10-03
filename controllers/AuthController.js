@@ -108,11 +108,6 @@ class AuthController {
     }
 
     async register(req, res) {
-        req.body.expiration = moment()
-            .add(1, "days")
-            .format("YYYY/MM/DD HH:mm:mm")
-            .toString();
-
         if (!this.validPassword(req.body.password))
             return res.status(500).json({ error: "Low password strength" });
 
@@ -122,7 +117,7 @@ class AuthController {
 
         const substitutions = {
             name: `${userData.firstname}`.toUpperCase(),
-            password_link: `${config.BASE_URL}/confirmation?user=${userData._id}&hash=${userData.token}`
+            password_link: `${config.BASE_URL}/confirmation/${userData._id}/${userData.token}`
         };
 
         this.mailController.send(userData.email, {
@@ -133,6 +128,52 @@ class AuthController {
         });
 
         return res.sendStatus(201);
+    }
+
+    async confirmation(req, res) {
+        const errorMessage = "Account confirmation error.";
+        req.body = { token: req.params.token, confirmed: false };
+
+        try {
+            const userData = await this.userController.get(req, "");
+
+            if (!userData)
+                return res.status(404).json({ message: "User not found" });
+
+            req.body.confirmed = true;
+            const userDataConfirmed = await this.userController.update(req);
+
+            if (userDataConfirmed && userDataConfirmed._id) {
+                const newToken = await this.getNewToken();
+
+                if (!newToken) {
+                    throw errorMessage;
+                }
+
+                const tokenCreated = await this.redisService.set(
+                    newToken,
+                    userDataConfirmed._id.toString()
+                );
+                if (newToken && tokenCreated) {
+                    return res.status(201).json({
+                        authorization: newToken,
+                        expiration: moment()
+                            .add(24, "hours")
+                            .format(),
+                        data: {
+                            fullname: `${userDataConfirmed.firstname} ${userDataConfirmed.lastname}`.toUpperCase()
+                        }
+                    });
+                }
+            } else {
+                return res
+                    .status(500)
+                    .json({ message: "Your user cannot be confirmed." });
+            }
+        } catch (e) {
+            console.log(e);
+            return res.status(500).json({ error: errorMessage });
+        }
     }
 
     validPassword(value) {
