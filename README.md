@@ -31,6 +31,12 @@ User model extension:
 -   The idea of this server base is have an abstraction of methods, keeping the core code unchanged and impacting through the configuration.
 -   If you need to extend the user's model, you can do so by adding properties in UserModelCustomProps. This will be unified to the model.
 
+Password strength:
+
+-   Two levels are defined: high (default) and medium.
+    -   High minium requirements: 1 symbol, 1 capital letter, 1 number and 8 character length.
+    -   Medium minium requirements: 1 number and 6 character length.
+
 Sendgrid emails:
 
 -   Sendgrid is used as a third-party messaging service and is integrated into mailController. The library is abstracted in the send method of the class. You can configure the apikey and the sender in config.js
