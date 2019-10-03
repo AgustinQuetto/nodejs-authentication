@@ -15,3 +15,27 @@ These server includes:
 -   CircleCI deployment
 -   Docker and docker-compose with Redis and MongoDB
 -   Redis as cache layer
+
+Configuration:
+
+-   config.js has dynamic configurations.
+-   It is determined by prior. Environment variable, productive constant, development constant, local constant.
+-   The priority responds to the value of the NODE_DEV environment variable. If the environment variable of a specific configuration is defined, it will be taken as a priority first.
+
+Terminal commands:
+
+-   npm run local (local development)
+-   npm run dev (server development)
+-   npm start (server production)
+
+Done:
+
+-   Register
+-   Login
+-   Confirmation with session token.
+
+Pending:
+
+-   Password recovery
+-   Integration with third parties services like Google.
+-   Frontend usign React+Redux with session data managment
