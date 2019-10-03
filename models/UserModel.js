@@ -24,14 +24,7 @@ const defaultProps = {
     }
 };
 
-const customProps = {
-    profiles: [
-        { kind: String, uid: String, username: String, password: String }
-    ],
-    employers: [{ label: String, position: String, since: Date, until: Date }]
-};
-
-const userModel = { ...defaultProps, ...customProps };
+const userModel = { ...defaultProps, ...config.UserModelCustomProps };
 
 const UserSchema = new Schema(userModel, {
     timestamps: true

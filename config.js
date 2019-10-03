@@ -60,6 +60,13 @@ self.mongodbConnectionString = `mongodb://${self.mongodb.user}${
     self.mongodb.port
 }/${self.mongodb.database}`;
 
+self.UserModelCustomProps = {
+    profiles: [
+        { kind: String, uid: String, username: String, password: String }
+    ],
+    employers: [{ label: String, position: String, since: Date, until: Date }]
+};
+
 function getConfig(processValue, productionValue, developValue, localValue) {
     if (processValue) return processValue;
     const value =
