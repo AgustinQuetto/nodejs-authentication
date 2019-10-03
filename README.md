@@ -16,6 +16,10 @@ These server includes:
 -   Docker and docker-compose with Redis and MongoDB
 -   Redis as cache layer
 
+Postman collection:
+
+-   https://www.getpostman.com/collections/38af6e6989900c99a30c
+
 Configuration:
 
 -   config.js has dynamic configurations.
