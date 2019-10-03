@@ -67,6 +67,8 @@ self.UserModelCustomProps = {
     employers: [{ label: String, position: String, since: Date, until: Date }]
 };
 
+module.exports = self;
+
 function getConfig(processValue, productionValue, developValue, localValue) {
     if (processValue) return processValue;
     const value =
@@ -80,5 +82,3 @@ function getConfig(processValue, productionValue, developValue, localValue) {
     }
     return value;
 }
-
-module.exports = self;
