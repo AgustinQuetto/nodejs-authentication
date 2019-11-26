@@ -21,10 +21,9 @@ class UserController {
 
         body.password = bcrypt.hashSync(body.password, this.salt);
         body.token = generateUUID();
-        body.expiration = moment()
-            .add(1, "days")
-            .format("YYYY/MM/DD HH:mm:mm")
-            .toString();
+        body.token_expiration = moment()
+            .add(2, "d")
+            .valueOf();
 
         const created = await this.userService.create(body);
 

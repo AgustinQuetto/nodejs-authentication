@@ -59,14 +59,14 @@ class AuthController {
 
             const tokenCreated = await this.redisService.set(
                 newToken,
-                userData._id.toString()
+                userData._id.toString(),
+                config.auth.expiration
             );
             if (newToken && tokenCreated) {
                 return res.status(201).json({
                     authorization: newToken,
-                    expiration: moment()
-                        .add(24, "hours")
-                        .format(),
+                    expiration: config.auth.expiration.value,
+                    expiration_unit: config.auth.expiration.unit,
                     data: {
                         fullname: `${userData.firstname} ${userData.lastname}`.toUpperCase()
                     }
@@ -136,7 +136,13 @@ class AuthController {
 
     async confirmation(req, res) {
         const errorMessage = "Account confirmation error.";
-        req.body = { token: req.params.token, confirmed: false };
+        req.body = {
+            token: req.params.token,
+            token_expiration: {
+                $gte: moment().valueOf()
+            },
+            confirmed: false
+        };
 
         try {
             const userData = await this.userController.get(req, "");
@@ -145,6 +151,8 @@ class AuthController {
                 return res.status(404).json({ message: "User not found" });
 
             req.body.confirmed = true;
+            delete req.body.token_expiration;
+
             const userDataConfirmed = await this.userController.update(req);
 
             if (userDataConfirmed && userDataConfirmed._id) {
@@ -163,7 +171,7 @@ class AuthController {
                         authorization: newToken,
                         expiration: moment()
                             .add(24, "hours")
-                            .format(),
+                            .valueOf(),
                         data: {
                             fullname: `${userDataConfirmed.firstname} ${userDataConfirmed.lastname}`.toUpperCase()
                         }

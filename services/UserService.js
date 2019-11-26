@@ -20,7 +20,11 @@ class UserService {
         return user.save();
     }
 
-    update(query = false, data = {}, opts = { returnNewDocument: true }) {
+    update(
+        query = false,
+        data = {},
+        opts = { returnNewDocument: true, useFindAndModify: false }
+    ) {
         if (!query) return false;
 
         return this.userModel.findOneAndUpdate(query, data, opts);

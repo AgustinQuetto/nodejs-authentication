@@ -17,7 +17,7 @@ const defaultProps = {
     gender: String,
     password: String,
     token: String,
-    expiration: Date,
+    token_expiration: { type: Date, required: true },
     confirmed: {
         type: Boolean,
         default: false

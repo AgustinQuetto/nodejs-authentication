@@ -31,8 +31,11 @@ self.endpoints = {
 };
 
 self.redis = {
-    url: getConfig(env.REDISURL, "redis", "127.0.0.1"),
-    port: getConfig(env.REDISPORT, 6379)
+    connection: {
+        url: getConfig(env.REDISURL, "redis", "127.0.0.1"),
+        port: getConfig(env.REDISPORT, 6379)
+    },
+    expiration: { unit: "EX", value: 86400 }
 };
 
 self.s3 = {
@@ -53,6 +56,10 @@ self.sendgrid = {
     templates: {
         welcome: getConfig(env.SENDGRIDTEMPLATESWELCOME, "")
     }
+};
+
+self.auth = {
+    expiration: { unit: "EX", value: 86400 } //1 day in seconds
 };
 
 self.passwordLevel = ["high", "medium"][0];

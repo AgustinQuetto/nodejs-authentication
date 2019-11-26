@@ -3,8 +3,11 @@ const redis = require("redis");
 
 class RedisService {
     constructor() {
-        console.log("REDIS CONFIG: ", config.redis);
-        this.client = redis.createClient(config.redis.port, config.redis.url);
+        console.log("REDIS CONFIG: ", config.redis.connection);
+        this.client = redis.createClient(
+            config.redis.connection.port,
+            config.redis.connection.url
+        );
     }
 
     async get(key) {
@@ -20,8 +23,8 @@ class RedisService {
     async set(
         key,
         value,
-        timeUnit = "EX",
-        valueTime = parseInt(+new Date() / 1000) + 86400
+        timeUnit = config.redis.expiration.unit,
+        valueTime = config.redis.expiration.value
     ) {
         return await this.client.set(key, value, timeUnit, valueTime);
     }
