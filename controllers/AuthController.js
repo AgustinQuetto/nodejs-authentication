@@ -164,14 +164,15 @@ class AuthController {
 
                 const tokenCreated = await this.redisService.set(
                     newToken,
-                    userDataConfirmed._id.toString()
+                    userDataConfirmed._id.toString(),
+                    config.auth.expiration.unit,
+                    config.auth.expiration.value
                 );
                 if (newToken && tokenCreated) {
                     return res.status(201).json({
                         authorization: newToken,
-                        expiration: moment()
-                            .add(24, "hours")
-                            .valueOf(),
+                        expiration: config.auth.expiration.value,
+                        expiration_unit: config.auth.expiration.unit,
                         data: {
                             fullname: `${userDataConfirmed.firstname} ${userDataConfirmed.lastname}`.toUpperCase()
                         }
