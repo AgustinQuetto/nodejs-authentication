@@ -64,11 +64,14 @@ self.auth = {
 
 self.passwordLevel = ["high", "medium"][0];
 
-self.mongodbConnectionString = `mongodb://${self.mongodb.user}${
-    self.mongodb.password ? ":" + self.mongodb.password : ""
-}${self.mongodb.user || self.mongodb.password ? "@" : ""}${self.mongodb.ip}:${
-    self.mongodb.port
-}/${self.mongodb.database}`;
+self.mongodbConnectionString = `mongodb://${self.mongodb.ip}:${self.mongodb.port}/${self.mongodb.database}`;
+
+self.mongodbAuth = {
+    auth: { authSource: self.mongodb.authSource },
+    useMongoClient: true
+};
+if (self.mongodb.password) self.mongodbAuth.pass = self.mongodb.password;
+if (self.mongodb.user) self.mongodbAuth.user = self.mongodb.user;
 
 self.UserModelCustomProps = {
     profiles: [
