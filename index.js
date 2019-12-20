@@ -7,7 +7,10 @@ const express = require("express"),
     moment = require("moment"),
     mongoose = require("mongoose");
 
-mongoose.connect(config.mongodbConnectionString, { useNewUrlParser: true });
+mongoose.connect(config.mongodbConnectionString, {
+    useNewUrlParser: true,
+    ...config.mongodbAuth
+});
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
