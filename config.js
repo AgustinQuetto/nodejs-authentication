@@ -18,7 +18,8 @@ self.mongodb = {
     port: getConfig(env.MONGODB_PORT, `27017`),
     user: getConfig(env.MONGODB_USER, ``),
     password: getConfig(env.MONGODB_PASSWORD, ``),
-    database: getConfig(env.MONGODB_DATABASE, `example`)
+    database: getConfig(env.MONGODB_DATABASE, `example`),
+    authSource: getConfig(env.MONGODB_AUTHSOURCE, `admin`)
 };
 
 self.endpoints = {
