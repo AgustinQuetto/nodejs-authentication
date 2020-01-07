@@ -63,16 +63,21 @@ self.auth = {
     expiration: { unit: "EX", value: 86400 } //1 day in seconds
 };
 
-self.passwordLevel = ["high", "medium"][0];
+self.passwordLevelIndex = 0;
+
+self.passwordLevel = ["high", "medium"][self.passwordLevelIndex || 0];
 
 self.mongodbConnectionString = `mongodb://${self.mongodb.ip}:${self.mongodb.port}/${self.mongodb.database}`;
 
-self.mongodbAuth = {
-    auth: { authSource: self.mongodb.authSource },
-    useMongoClient: true
-};
-if (self.mongodb.password) self.mongodbAuth.pass = self.mongodb.password;
-if (self.mongodb.user) self.mongodbAuth.user = self.mongodb.user;
+self.mongodbAuth = {};
+
+if (self.mongodb.user && self.mongodb.user != "") {
+    self.mongodbAuth.auth = { authSource: self.mongodb.authSource };
+    self.mongodbAuth.user = self.mongodb.user;
+    if (self.mongodb.password && self.mongodb.password != "") {
+        self.mongodbAuth.pass = self.mongodb.password;
+    }
+}
 
 self.UserModelCustomProps = {
     profiles: [
