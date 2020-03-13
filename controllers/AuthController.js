@@ -23,13 +23,17 @@ class AuthController {
             if (tokenValue) {
                 const dataRedis = await this.redisService.get(tokenValue);
                 if (dataRedis) {
-                    const userData = await this.redisService.get(
-                        `user-${dataRedis}`
+                    const userData = await this.userController.get(
+                        {
+                            params: { _id: dataRedis }
+                        },
+                        "-password -token -expiration -token_expiration"
                     );
-                    return JSON.parse(userData);
+                    if (userData) return userData;
                 }
             }
         } catch (e) {
+            console.log(e);
             return false;
         }
         return false;
@@ -59,11 +63,11 @@ class AuthController {
 
             const tokenCreated = await this.redisService.set(
                 newToken,
-                userData._id.toString(),
-                config.auth.expiration
+                userData._id.toString()
             );
+
             if (newToken && tokenCreated) {
-                return res.status(201).json({
+                return res.status(200).json({
                     authorization: newToken,
                     expiration: config.auth.expiration.value,
                     expiration_unit: config.auth.expiration.unit,

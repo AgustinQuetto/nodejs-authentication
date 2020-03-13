@@ -38,24 +38,35 @@ class UserController {
     }
 
     async get(req, res) {
-        const id = _.get(req, "params._id");
+        const id = _.get(req, "params._id") || _.get(req, "session._id");
         const email = _.get(req, "email") || _.get(req, "body.email");
-
         if (id || email) {
-            const user = await this.userService.get(
-                req.body,
-                typeof res == "string" ? res : "-password -token -expiration"
-            );
+            let user = id ? await this.redisService.get(`user-${id}`) : false;
+
+            if (!user) {
+                user = await this.userService.get(
+                    id ? { _id: id } : req.body,
+                    typeof res == "string"
+                        ? res
+                        : "-password -token -expiration"
+                );
+                await this.redisService.set(
+                    `user-${user._id}`,
+                    JSON.stringify(user)
+                );
+            } else {
+                user = JSON.parse(user);
+            }
 
             if (user && user._id) {
                 return typeof res == "string"
                     ? user
                     : res.status(200).json(user);
             }
-            return typeof res == "string" ? res : res.sendStatus(404);
+            return typeof res == "string" ? false : res.sendStatus(404);
         }
 
-        return typeof res == "string" ? res : res.sendStatus(500);
+        return typeof res == "string" ? false : res.sendStatus(500);
     }
 
     async update(req, res = false) {

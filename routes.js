@@ -3,6 +3,9 @@ const config = require("./config");
 const RedisService = require("./services/RedisService");
 const RedisServiceInstance = new RedisService();
 
+const MailController = require("./controllers/MailController");
+const MailControllerInstance = new MailController();
+
 const UserController = require("./controllers/UserController");
 const UserService = require("./services/UserService");
 const UserModel = require("./models/UserModel");
@@ -10,11 +13,9 @@ const UserServiceInstance = new UserService(UserModel, RedisServiceInstance);
 
 const UserInstance = new UserController(
     UserServiceInstance,
-    RedisServiceInstance
+    RedisServiceInstance,
+    MailControllerInstance
 );
-
-const MailController = require("./controllers/MailController");
-const MailControllerInstance = new MailController();
 
 const AuthController = require("./controllers/AuthController");
 const AuthService = require("./services/AuthService");
@@ -60,8 +61,11 @@ module.exports = app => {
                 error: "Your authorization token expired or there was an error."
             });
         }
-        req.session = session;
         next();
+    });
+
+    app.get("/auth/me", async (req, res) => {
+        return res.json(req.session);
     });
 
     app.get("/file/:bucket/:path/:file", FileService.getFromS3);
