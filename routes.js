@@ -1,3 +1,4 @@
+const cookieParser = require("cookie-parser");
 const config = require("./config");
 
 const RedisService = require("./services/RedisService");
@@ -29,6 +30,7 @@ const AuthInstance = new AuthController(
 const FileService = require("./services/FileService");
 
 module.exports = app => {
+    app.use(cookieParser());
     app.use(async (req, res, next) => {
         console.log("Request path: ", req.originalUrl);
         next();
@@ -66,7 +68,6 @@ module.exports = app => {
     });
 
     app.get("/auth/me", async (req, res) => {
-        console.log(req.session);
         return res.json(req.session);
     });
 
