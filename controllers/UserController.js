@@ -48,7 +48,7 @@ class UserController {
                     id ? { _id: id } : req.body,
                     typeof res == "string"
                         ? res
-                        : "-password -token -expiration"
+                        : "-password -token -expiration -token_expiration"
                 );
                 await this.redisService.set(
                     `user-${user._id}`,
@@ -56,6 +56,10 @@ class UserController {
                 );
             } else {
                 user = JSON.parse(user);
+                delete user.password;
+                delete user.token;
+                delete user.expiration;
+                delete user.token_expiration;
             }
 
             if (user && user._id) {

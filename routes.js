@@ -66,6 +66,7 @@ module.exports = app => {
     });
 
     app.get("/auth/me", async (req, res) => {
+        console.log(req.session);
         return res.json(req.session);
     });
 
