@@ -2,6 +2,7 @@ const generateUUID = require("./AuthController").generateUUID;
 const bcrypt = require("bcrypt");
 const _ = require("lodash");
 const moment = require("moment");
+const ObjectId = require("mongoose").Types.ObjectId;
 
 class UserController {
     constructor(userService, redisService, mailController) {
@@ -37,8 +38,11 @@ class UserController {
         return res ? res.sendStatus(500) : false;
     }
 
-    async get(req, res) {
-        const id = _.get(req, "params._id") || _.get(req, "session._id");
+    async get(req, res = false) {
+        const id =
+            typeof req == "string" && new ObjectId(req) == req
+                ? req
+                : _.get(req, "params._id") || _.get(req, "session._id");
         const email = _.get(req, "email") || _.get(req, "body.email");
         if (id || email) {
             let user = id ? await this.redisService.get(`user-${id}`) : false;
@@ -63,7 +67,7 @@ class UserController {
             }
 
             if (user && user._id) {
-                return typeof res == "string"
+                return typeof res == "string" || !res
                     ? user
                     : res.status(200).json(user);
             }

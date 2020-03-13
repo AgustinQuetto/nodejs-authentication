@@ -23,12 +23,7 @@ class AuthController {
             if (tokenValue) {
                 const dataRedis = await this.redisService.get(tokenValue);
                 if (dataRedis) {
-                    const userData = await this.userController.get(
-                        {
-                            params: { _id: dataRedis }
-                        },
-                        "-password -token -expiration -token_expiration"
-                    );
+                    const userData = await this.userController.get(dataRedis);
                     if (userData) return userData;
                 }
             }

@@ -50,6 +50,7 @@ module.exports = app => {
     );
 
     app.post("/login", async (req, res) => await AuthInstance.login(req, res));
+
     app.get(
         "/confirmation/:_id/:token",
         async (req, res) => await AuthInstance.confirmation(req, res)
