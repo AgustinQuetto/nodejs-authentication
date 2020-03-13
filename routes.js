@@ -61,6 +61,7 @@ module.exports = app => {
                 error: "Your authorization token expired or there was an error."
             });
         }
+        req.session = session;
         next();
     });
 
