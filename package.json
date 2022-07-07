@@ -20,7 +20,7 @@
     "express": "^4.17.1",
     "isomorphic-fetch": "^2.2.1",
     "lodash": "^4.17.15",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "mongoose": "^5.7.5",
     "redis": "^2.8.0",
     "supervisor": "^0.12.0",
